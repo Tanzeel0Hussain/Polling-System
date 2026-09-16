@@ -1,4 +1,4 @@
-name: Java CI
+name: Java and Web CI
 
 on:
   push:
@@ -20,5 +20,13 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Run tests and package
+      - name: Run Java tests and package
         run: mvn -B clean test package
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate live web app JavaScript
+        run: node --check docs/assets/app.js
