@@ -29,4 +29,6 @@ jobs:
           node-version: '22'
 
       - name: Validate live web app JavaScript
-        run: node --check docs/assets/app.js
+        run: |
+          node --check docs/assets/app.js
+          node --check docs/assets/navigation.js
