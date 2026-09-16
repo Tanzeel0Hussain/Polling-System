@@ -1,97 +1,214 @@
 # Polling System
 
+[![Java CI](https://github.com/Tanzeel0Hussain/Polling-System/actions/workflows/ci.yml/badge.svg)](https://github.com/Tanzeel0Hussain/Polling-System/actions/workflows/ci.yml)
+![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-Persistent_Data-003B57?logo=sqlite&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-Build-C71A36?logo=apachemaven&logoColor=white)
+
+A secure desktop polling application built with **Java Swing**, **SQLite**, **Maven**, and **BCrypt**. The project began as a university GUI assignment and has been rebuilt into a cleaner portfolio-ready application with persistent data, role-based access, poll management, duplicate-vote protection, automated tests, and CI.
+
+> This is a general-purpose educational polling application. It is not intended to replace a certified public-election system.
+
+## Highlights
+
+- Persistent SQLite database for users, polls, candidates/options, and votes
+- BCrypt password hashing instead of plaintext password storage
+- First-run administrator setup — no admin password is committed to the repository
+- Separate voter and administrator authentication flows
+- Voter registration with validation and unique usernames
+- Admin dashboard with poll creation, open/close controls, statistics, and results
+- Multiple candidates/options per poll
+- Database-enforced **one account, one vote per poll** rule
+- Vote confirmation before submission
+- Results with vote totals and percentages
+- Modern reusable Swing theme and responsive desktop layouts
+- Maven build that creates a runnable shaded JAR
+- JUnit 5 tests and GitHub Actions CI
+
+## Application Flow
+
+```text
+First Run
+   |
+   +-- Create Administrator
+   |
+Welcome Screen
+   |
+   +-- Voter Login ------> Open Polls ------> Select Option ------> Submit Vote
+   |
+   +-- Create Account ---> Register Voter
+   |
+   +-- Admin Login ------> Create Poll ------> Open / Close ------> View Results
+```
+
+## Security Improvements
+
+The original academic version stored users and votes in Java `HashMap` objects and contained a hard-coded administrator credential. Version 2 replaces that approach with:
+
+- BCrypt password hashes
+- SQLite persistence
+- SQL prepared statements
+- Role checks for voter/admin authentication
+- Unique usernames using case-insensitive database constraints
+- Foreign-key relationships between polls, candidates, users, and votes
+- A unique `(election_id, user_id)` database constraint to prevent duplicate voting
+- First-run administrator creation instead of repository-stored credentials
+
+## Technology Stack
+
+| Layer | Technology |
+| --- | --- |
+| Desktop UI | Java Swing |
+| Runtime | Java 17+ |
+| Database | SQLite |
+| Authentication | BCrypt |
+| Build | Maven |
+| Testing | JUnit 5 |
+| CI | GitHub Actions |
+
+## Project Structure
+
+```text
+Polling-System/
+├── .github/workflows/
+│   └── ci.yml
+├── src/
+│   ├── main/java/com/tanzeel/polling/
+│   │   ├── App.java
+│   │   ├── data/
+│   │   │   └── Database.java
+│   │   ├── model/
+│   │   │   └── User.java
+│   │   ├── service/
+│   │   │   ├── AuthService.java
+│   │   │   └── PollService.java
+│   │   └── ui/
+│   │       ├── Theme.java
+│   │       ├── WelcomeFrame.java
+│   │       ├── AuthFrame.java
+│   │       ├── UserDashboardFrame.java
+│   │       └── AdminDashboardFrame.java
+│   └── test/java/com/tanzeel/polling/
+│       ├── AuthServiceTest.java
+│       └── PollServiceTest.java
+├── pom.xml
+└── README.md
+```
+
+Runtime database files are created inside `data/` and are ignored by Git.
+
 ## Requirements
 
-### 1. Java Development Kit (JDK)
-This application is written in Java, so you will need to install the Java Development Kit (JDK). The JDK is essential for compiling and running Java programs.
+- JDK 17 or newer
+- Maven 3.9+ recommended
 
-You can download the JDK from [Oracle's website](https://www.oracle.com/java/technologies/javase-downloads.html).
+Check your installation:
 
-### 2. Integrated Development Environment (IDE)
-To run this code, you can use any Java IDE, such as:
+```bash
+java -version
+mvn -version
+```
 
-- Eclipse
-- IntelliJ IDEA
-- NetBeans
+## Run from Source
 
-These IDEs allow you to easily compile and run the code.
+Clone the repository:
 
-## Steps to Run the Code
+```bash
+git clone https://github.com/Tanzeel0Hussain/Polling-System.git
+cd Polling-System
+```
 
-### Step 1: Install JDK and IDE
-Ensure that you have JDK 8 or later installed and set up on your system. Download and install an IDE such as Eclipse, IntelliJ IDEA, or NetBeans.
+Run the automated tests:
 
-### Step 2: Open Your Preferred IDE
-Launch your IDE and create a new Java project.
+```bash
+mvn clean test
+```
 
-### Step 3: Copy the Provided Code
-Copy and paste the provided Java files into your project. Ensure the class names match the file names, such as:
-- `PollingSystem.java`
-- `WelcomeFrame.java`
+Build the application:
 
-### Step 4: Configure the Package
-Make sure all classes are in the same package, for example, `myproject`. If you don’t want to use a package, remove the `package myproject;` line from each file.
+```bash
+mvn clean package
+```
 
-### Step 5: Run the Main File
-Execute `PollingSystem.java`, as it contains the `public static void main(String[] args)` method, which serves as the application's entry point.
+Run the generated application JAR:
 
-## Which File to Run
-Run `PollingSystem.java` to start the application. When executed, it opens the `WelcomeFrame` window, providing options for:
-- **Admin Login**
-- **User Registration**
-- **User Login**
+```bash
+java -jar target/polling-system-2.0.0.jar
+```
 
-## Software Requirements
+On the first launch, the application asks you to create an administrator account. No default administrator password is stored in the source code.
 
-### 1. Operating System
-- Windows
-- macOS
-- Linux (any OS that supports Java)
+## Using the Application
 
-### 2. Java Version
-Ensure you have JDK 8 or later installed.
+### Administrator
 
-### 3. IDE
-Any Java IDE like:
-- IntelliJ IDEA
-- Eclipse
-- NetBeans
+1. Create the administrator account on first run.
+2. Sign in through **Administrator**.
+3. Select **Create Poll**.
+4. Enter a title, optional description, and one candidate/option per line.
+5. The poll opens immediately.
+6. Close or reopen the poll from the dashboard.
+7. Review live vote totals and percentages.
 
-## Application Functionality
+### Voter
 
-### 1. Welcome Screen
-The application starts with a welcome screen where users can:
-- **Log in as an Admin**
-- **Register as a New User**
-- **Log in as an Existing User**
+1. Create a voter account.
+2. Sign in through **Voter Login**.
+3. Select an open poll.
+4. Choose one candidate/option.
+5. Confirm the vote.
+6. The account cannot vote in that same poll again.
 
-### 2. Admin Login
-Admins can log in using the default credentials:
-- **Email:** `admin@gmail.com`
-- **Password:** `admin`
+## Database Schema
 
-Once logged in, the admin can view the voting results.
+```text
+users
+  id, username, password_hash, role, created_at
 
-### 3. User Registration
-New users can register by providing a username and password.
+elections
+  id, title, description, status, created_at
 
-### 4. User Login
-Registered users can log in and cast their votes.
+candidates
+  id, election_id, name
 
-### 5. Voting
-Users can vote for one of the three candidates:
-- **Tanzeel Hussain**
-- **Muhammad Sohail**
-- **Muhammad Ali**
+votes
+  id, election_id, user_id, candidate_id, created_at
+```
 
-### 6. View Results
-Admins can view the voting results, which display the number of votes each candidate has received.
+The `votes` table has a unique constraint on `election_id + user_id`, which provides the final duplicate-vote protection even if a UI check is bypassed.
 
-## Dependencies
-This application uses **Java Swing** for the graphical user interface (GUI). Since Swing is part of the standard Java library, no additional dependencies are required.
+## Tests
 
-## Expected Output
-When the application is run, a GUI window opens, allowing users to interact with the polling system. Admins can view the voting results in real-time.
+The current automated tests cover:
 
-If you follow these steps, you should be able to successfully run the Java polling system. Let me know if you need further assistance!
+- voter registration and authentication
+- incorrect-password rejection
+- duplicate username prevention
+- first-administrator creation
+- poll creation
+- successful vote submission
+- duplicate-vote rejection
+- result percentage calculation
+- closed-poll vote rejection
 
+GitHub Actions runs the test suite and Maven package build on every push and pull request to `main`.
+
+## Original Academic Material
+
+The repository also contains the original project report and presentation for historical/documentation purposes:
+
+- `Polling-System-Java-Application Project Report.pdf`
+- `Polling-System-Java-Application.pptx`
+
+The current `src/` implementation is the maintained application.
+
+## Roadmap
+
+Potential future improvements include candidate photos, CSV/PDF result export, audit-event logging, password reset, configurable poll schedules, and a separate web client/API version.
+
+## Developer
+
+**Tanzeel Hussain**  
+BS Computer Science — Iqra University Islamabad
+
+GitHub: [@Tanzeel0Hussain](https://github.com/Tanzeel0Hussain)
