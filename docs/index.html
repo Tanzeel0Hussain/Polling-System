@@ -6,11 +6,17 @@
   <meta name="description" content="Full browser version of the Polling System workflow with admin setup, voter accounts, poll management, voting and results.">
   <title>Polling System — Live App</title>
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/navigation.css">
 </head>
 <body>
   <header class="topbar">
     <button class="brand-button" id="brandHome" type="button">POLLING SYSTEM</button>
     <div class="top-actions">
+      <div class="quick-nav" aria-label="Live app navigation">
+        <button class="nav-button" id="navHome" type="button">Home</button>
+        <button class="nav-button" id="navVoter" type="button">Voter Login</button>
+        <button class="nav-button" id="navRegister" type="button">Register</button>
+      </div>
       <span class="storage-pill">Browser Edition</span>
       <button class="nav-button" id="resetApp" type="button">Reset App</button>
       <a class="nav-button download-link" href="https://github.com/Tanzeel0Hussain/Polling-System/releases/latest" target="_blank" rel="noopener">Download Desktop</a>
@@ -63,5 +69,6 @@ Option B</textarea>
   </footer>
 
   <script src="assets/app.js"></script>
+  <script src="assets/navigation.js"></script>
 </body>
 </html>
