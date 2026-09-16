@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive browser demo for the Polling System Java desktop application.">
+  <title>Polling System — Live Demo</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top">Polling System</a>
+    <nav>
+      <a href="#demo">Live Demo</a>
+      <a href="#desktop">Desktop App</a>
+      <a href="https://github.com/Tanzeel0Hussain/Polling-System" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Java 17 · Swing · SQLite · BCrypt</div>
+        <h1>Secure polling, first tested in your browser.</h1>
+        <p>This page is an interactive preview of the desktop Polling System. Try the admin and voter flows here, then download the full Java application for SQLite persistence and secure authentication.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#demo">Open Live Demo</a>
+          <a class="btn secondary" href="https://github.com/Tanzeel0Hussain/Polling-System/releases/latest" target="_blank" rel="noopener">Download Desktop App</a>
+        </div>
+        <p class="fine-print">Demo data is stored only in this browser using localStorage. The desktop application uses SQLite and BCrypt.</p>
+      </div>
+      <div class="hero-panel">
+        <div class="metric"><strong>2</strong><span>Roles</span></div>
+        <div class="metric"><strong>1</strong><span>Vote per poll</span></div>
+        <div class="metric"><strong>100%</strong><span>Local demo</span></div>
+        <div class="status-card"><span class="status-dot"></span><div><strong>Desktop build verified</strong><small>Maven tests and packaging run in GitHub Actions.</small></div></div>
+      </div>
+    </section>
+
+    <section class="feature-strip">
+      <span>Poll management</span><span>Role-based flow</span><span>Duplicate-vote protection</span><span>Live result percentages</span>
+    </section>
+
+    <section class="section" id="demo">
+      <div class="section-heading">
+        <div><span class="kicker">Interactive Preview</span><h2>Test the polling workflow</h2></div>
+        <button class="text-button" id="resetDemo">Reset demo data</button>
+      </div>
+
+      <div class="demo-shell">
+        <aside class="sidebar">
+          <button class="mode-button active" data-mode="voter">Voter Demo</button>
+          <button class="mode-button" data-mode="admin">Admin Demo</button>
+          <div class="sidebar-note"><strong>Preview only</strong><p>This browser version mirrors the workflow. It is not the Java desktop runtime and is not intended for real elections.</p></div>
+        </aside>
+
+        <div class="workspace">
+          <section class="view active" id="voterView">
+            <div class="workspace-header"><div><span class="kicker">Voter</span><h3>Available polls</h3></div><span class="user-pill">demo-voter</span></div>
+            <div id="voterPolls" class="poll-grid"></div>
+          </section>
+
+          <section class="view" id="adminView">
+            <div class="workspace-header"><div><span class="kicker">Administrator</span><h3>Poll management</h3></div><button class="btn small primary" id="openCreate">Create Poll</button></div>
+            <div id="adminPolls" class="admin-list"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section split" id="desktop">
+      <div>
+        <span class="kicker">Full Application</span>
+        <h2>Use the desktop version for the complete experience.</h2>
+        <p>The Java application includes first-run administrator setup, BCrypt password hashing, SQLite persistence, prepared SQL statements, role checks, and a database-level unique constraint that prevents duplicate votes.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="https://github.com/Tanzeel0Hussain/Polling-System/releases/latest" target="_blank" rel="noopener">Download Latest JAR</a>
+          <a class="btn secondary" href="https://github.com/Tanzeel0Hussain/Polling-System#run-from-source" target="_blank" rel="noopener">Run from Source</a>
+        </div>
+      </div>
+      <div class="code-card">
+        <span>Terminal</span>
+        <code>java -jar polling-system-2.0.0.jar</code>
+        <small>Requires Java 17 or newer.</small>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="createModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="createTitle">
+      <div class="modal-head"><h3 id="createTitle">Create a demo poll</h3><button id="closeCreate" aria-label="Close">×</button></div>
+      <label>Poll title<input id="pollTitle" maxlength="80" placeholder="e.g. Best final-year project"></label>
+      <label>Description<input id="pollDescription" maxlength="140" placeholder="Optional short description"></label>
+      <label>Options<textarea id="pollOptions" rows="5" placeholder="One option per line"></textarea></label>
+      <div id="formMessage" class="form-message"></div>
+      <div class="modal-actions"><button class="btn secondary" id="cancelCreate">Cancel</button><button class="btn primary" id="createPoll">Create Poll</button></div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Polling System · Portfolio Demo</span>
+    <span>Developed by <a href="https://github.com/Tanzeel0Hussain" target="_blank" rel="noopener">Tanzeel Hussain</a></span>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
