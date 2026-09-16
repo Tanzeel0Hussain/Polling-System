@@ -34,10 +34,10 @@ class PollServiceTest {
         List<PollService.Candidate> candidates = pollService.listCandidates(election.id());
         assertEquals(2, candidates.size());
 
-        pollService.castVote(election.id(), voter.id(), candidates.getFirst().id());
+        pollService.castVote(election.id(), voter.id(), candidates.get(0).id());
         assertTrue(pollService.hasVoted(election.id(), voter.id()));
         assertThrows(IllegalStateException.class,
-                () -> pollService.castVote(election.id(), voter.id(), candidates.getLast().id()));
+                () -> pollService.castVote(election.id(), voter.id(), candidates.get(1).id()));
 
         List<PollService.ResultRow> results = pollService.results(election.id());
         assertEquals(1, results.stream().mapToInt(PollService.ResultRow::votes).sum());
@@ -49,7 +49,7 @@ class PollServiceTest {
         PollService.Election election = pollService.createElection(
                 "Closed poll", "Testing status", List.of("Yes", "No"));
         pollService.setElectionStatus(election.id(), false);
-        long candidateId = pollService.listCandidates(election.id()).getFirst().id();
+        long candidateId = pollService.listCandidates(election.id()).get(0).id();
         assertThrows(IllegalStateException.class,
                 () -> pollService.castVote(election.id(), voter.id(), candidateId));
     }
