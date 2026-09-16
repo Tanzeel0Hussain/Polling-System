@@ -3,11 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=./docs/">
   <title>Polling System</title>
-  <script>window.location.replace('./docs/');</script>
+  <script>
+    const target = `./docs/${window.location.search}${window.location.hash}`;
+    window.location.replace(target);
+  </script>
 </head>
 <body>
-  <p>Opening Polling System… <a href="./docs/">Continue to the live app</a>.</p>
+  <p>Opening Polling System… <a id="continueLink" href="./docs/">Continue to the live app</a>.</p>
+  <script>document.querySelector('#continueLink').href = `./docs/${window.location.search}${window.location.hash}`;</script>
 </body>
 </html>
